@@ -1,0 +1,44 @@
+'''
+1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736
+
+1b 37 37 33 31 36 3f 78
+15 1b 7f 2b 78 34 31 33
+3d 78 39 78 28 37 2d 36
+3c 78 37 3e 78 3a 39 3b
+37 36
+
+After Encoding
+
+77316?x+x413=x9x(7-6<x7>x:9;76
+
+   7  7  3  1  6  ?  x
+   +     x     4  1  3
+=  x  9  x  (  7  -  6
+<  x  7  >  x  :  9  ;
+7  6
+'''
+import string
+
+def stringxor(str1,str2):
+    orxstr=""
+    for i in range(0,len(str1)-1):
+        rst=ord(list(str1)[i])^ord(list(str2)[i])
+        orxstr=orxstr+ chr(rst)
+    return orxstr
+    #字符串异或
+
+def main():
+    h = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"
+    hex=bytes.fromhex(h).decode('utf-8')
+    #bytesstring=hex.encode(encoding='utf-8')
+    #print(hex)
+    for i in string.ascii_letters:
+        x=i
+        #遍历字母
+        for j in range (1,34):
+            x=x+i
+        y=stringxor(x,hex)
+        print(y)
+
+if __name__ == "__main__":
+    main()
