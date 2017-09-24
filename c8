@@ -1,0 +1,42 @@
+import itertools
+import binascii
+
+f = open('8.txt').read()
+ciphertext=bytes.fromhex(f).decode('utf-8')
+
+def hamming(a, b):
+    bits = 0
+    for i in range(len(a)):
+        if i<len(b):
+            bit = ord(a[i])^ord(b[i])
+            while bit:
+                bits += bit&1
+                bit>>=1
+        else:
+            bits += (len(a)-len(b))*8
+            break
+    if len(a) < len(b):
+                bits += (len(b)-len(a))*8
+    return bits
+    #求汉明距离
+
+def minham(cipher):
+    for i in range(len(cipher)):
+        blocks=[cipher[16*i:16*i+16]]
+    pairs=list(itertools.combinations(blocks,2)) #组合两两blocks到list中
+    mins=min(itertools.starmap(hamming,pairs))#迭代每次的汉明距离再找最小的
+    return mins
+    #求最小汉明距离
+
+def detect_ecb(ciphertext):
+    for i in range (len(ciphertext)):
+        minlist=[minham(ciphertext[i])]
+    ecbham=min(minlist)
+    line=minlist.index(ecbham)
+    print(line)
+
+def main():
+    detect_ecb(ciphertext)
+
+if __name__ == "__main__":
+    main()
